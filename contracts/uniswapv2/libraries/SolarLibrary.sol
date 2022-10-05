@@ -34,7 +34,8 @@ library SolarLibrary {
                         hex"ff",
                         factory,
                         keccak256(abi.encodePacked(token0, token1)),
-                        hex"0f53772a0b91c61dc3aaaa6aa3f0c898f1dbd2c53070a959c4254207038e064d" // init code hash
+                        // hex"0f53772a0b91c61dc3aaaa6aa3f0c898f1dbd2c53070a959c4254207038e064d" // init code hash in source code
+                        hex"2ad5ca17d1410d05eb48ed0d800e3427422dc7cd966bc5861a5779fcb78371e6" // init code hash calculated
                     )
                 )
             )
