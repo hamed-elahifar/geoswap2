@@ -9,6 +9,7 @@ const fs = require("fs");
 
 let deployerAddress;
 let factory;
+let router;
 let SolarDistributorV2;
 let pairs = [];
 
@@ -70,8 +71,8 @@ const addLiquidity = async (tokenA, tokenB, amount) => {
   const receipt = await router.addLiquidity(
     tokenA.address, // address tokenA,
     tokenB.address, // address tokenB,
-    100_000n, // uint256 amountADesired,
-    100_000n, // uint256 amountBDesired,
+    amount, // uint256 amountADesired,
+    amount, // uint256 amountBDesired,
     100n, // uint256 amountAMin,
     100n, // uint256 amountBMin,
     deployerAddress, // address to,
@@ -84,7 +85,7 @@ const addLiquidity = async (tokenA, tokenB, amount) => {
   );
   await receipt.wait();
 
-  console.log(`Tx successful with hash: ${receipt.hash}`);
+  console.log(`Add Liquidity Tx Hash: ${receipt.hash},amount: ${amount}`);
 };
 
 const startFarming = async () => {
@@ -144,7 +145,7 @@ const main = async () => {
   );
 
   // Deploy Router
-  const router = await deployer(
+  router = await deployer(
     "SolarRouter02",
     process.env.ROUTER,
     factory.address,
@@ -173,6 +174,14 @@ const main = async () => {
   const factoryPairsLength = await factory.allPairsLength();
   console.log("factoryPairsLength", factoryPairsLength);
   console.log();
+
+  // Add Liquidity
+  await addLiquidity(dai, usdc, 100_000n);
+  await addLiquidity(usdt, usdc, 100_000n);
+  await addLiquidity(dai, usdt, 100_000n);
+  await addLiquidity(a, b, 100_000n);
+  await addLiquidity(b, c, 100_000n);
+  await addLiquidity(a, c, 100_000n);
 
   for (let i = 0; i < factoryPairsLength; i++) {
     const result = await factory.allPairs(i);
