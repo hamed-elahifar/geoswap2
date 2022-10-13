@@ -15,7 +15,7 @@ const transfer = async (contractPath, address, amount) => {
   const contract = await ethers.getContractAt(contractPath, address);
   const receipt = await contract.transfer(to, amount);
   await receipt.wait();
-  console.log(`Transfer successful with hash: ${receipt.hash}`);
+  console.log(`Transfer ${contractPath} successful: ${receipt.hash}`);
   console.log();
 };
 
